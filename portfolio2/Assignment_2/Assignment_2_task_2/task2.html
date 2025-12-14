@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>task2.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="edge-ai-architecture-for-human-robot-collaboration"><strong>Edge AI Architecture for Human-Robot Collaboration</strong></h1>
+<p>Transitioning from Rigid Safety Fencing to Dynamic Edge AI Safety System.</p>
+<p><img src="images/sketch.jpg" alt="sketch"></p>
+<h2 id="1-summary"><strong>1. Summary</strong></h2>
+<p>Traditional industrial safety relies on physical cages that completely stop production when a human enters the workspace. This &quot;Stop-and-Go&quot; approach kills efficiency. Modern Industry 4.0 standards (ISO/TS 15066) allow for <strong>Speed and Separation Monitoring (SSM)</strong>, where the robot dynamically slows down or alters its path based on the human's proximity.<br>
+However, relying on Cloud AI for this task introduces dangerous latency. A 100ms network lag could result in an injury before the robot receives the stop command. This report outlines a <strong>High-Performance Edge AI Architecture</strong> that processes skeletal tracking locally (within 15ms), ensuring compliance with safety standards while maintaining high production throughput.</p>
+<h2 id="2-system-architecture-design"><strong>2. System Architecture Design</strong></h2>
+<p>The proposed system creates a &quot;Virtual Safety Shield&quot; around the collaborative robot (Cobot). It uses redundant 3D vision to track the human worker's skeletal keypoints (wrists, head, shoulders) in real-time.</p>
+<h3 id="21-hardware-components"><strong>2.1 Hardware Components</strong></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Component</th>
+<th style="text-align:left">Specification</th>
+<th style="text-align:left">Function</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>Vision Sensors</strong></td>
+<td style="text-align:left"><strong>2x Intel RealSense D435i</strong></td>
+<td style="text-align:left"><strong>Redundancy &amp; Depth:</strong> Two cameras positioned at opposing angles eliminate &quot;blind spots&quot; (occlusion) caused by the robot's own arm. These provide both RGB and Depth (Point Cloud) data.</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Edge Compute</strong></td>
+<td style="text-align:left"><strong>NVIDIA Jetson Nano/Orin</strong></td>
+<td style="text-align:left"><strong>Local Inference:</strong> A dedicated System-on-Module (SoM)  It processes video streams locally without sending data to the cloud.</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Robot Controller</strong></td>
+<td style="text-align:left"><strong>Universal Robots Control Box</strong></td>
+<td style="text-align:left"><strong>Motion Control:</strong> Receives speed scaling commands (0% to 100%) from the Edge device and executes Safety Stop Category 1 or 2.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="22-software-stack"><strong>2.2 Software Stack</strong></h3>
+<ul>
+<li><strong>Input Layer:</strong> ROS 2 (Robot Operating System) nodes capturing raw point cloud data at high fps.</li>
+<li><strong>AI Model:</strong> <strong>YOLOv8-Pose</strong>
+<ul>
+<li>Pose estimation tracks specific joints (e.g., the right wrist). This allows the robot to keep working if the human is nearby but facing away, only stopping if the <em>hand</em> reaches toward the danger zone.</li>
+</ul>
+</li>
+<li><strong>Inference Engine: ONNX RT</strong>
+<ul>
+<li>This is the critical optimization layer that compiles the generic PyTorch model into a binary engine optimized.</li>
+</ul>
+</li>
+<li><strong>Safety Logic:</strong>
+<ul>
+<li>A deterministic algorithm that calculates the Euclidean distance between the robot's <strong>Tool Center Point (TCP)</strong> and the nearest <strong>Human Keypoint</strong>.</li>
+</ul>
+</li>
+</ul>
+<h2 id="3-edge-ai-optimization-strategy"><strong>3. Edge AI Optimization Strategy</strong></h2>
+<p>Running a modern computer vision model like YOLOv8-Pose at 30+ FPS on a small embedded device requires aggressive optimization. We cannot use the &quot;heavy&quot; models used in cloud servers.</p>
+<h3 id="strategy-a-post-training-quantization-to-int8"><strong>Strategy A: Post-Training Quantization to INT8</strong></h3>
+<p>Standard AI models compute using <strong>FP32</strong> (32-bit Floating Point) numbers. This is highly precise but computationally expensive.</p>
+<ul>
+<li><strong>The Technique:</strong> We convert the model weights and activations to <strong>INT8</strong> (8-bit Integers).</li>
+<li><strong>Implementation:</strong> Using the TensorRT calibrator, we pass a small dataset of &quot;representative images&quot; through the model. The calibrator determines the dynamic range of activation values and maps them to the -128 to +127 integer range.</li>
+<li><strong>Benefit:</strong> This reduces memory bandwidth usage by <strong>4x</strong> and inference time is lot faster.</li>
+</ul>
+<h3 id="strategy-b-structured-pruning"><strong>Strategy B: Structured Pruning</strong></h3>
+<p>Many neural networks are &quot;over-parameterized,&quot; containing neurons that contribute little to the final output.</p>
+<ul>
+<li><strong>The Technique:</strong> We use <strong>Structured Pruning</strong> (Channel Pruning). Unlike <em>unstructured</em> pruning (which makes matrices sparse but doesn't necessarily speed up hardware), structured pruning removes entire filters (channels) from the Convolutional layers.</li>
+<li><strong>Implementation:</strong> We identify channels with the lowest L1-norm (least impact) and physically remove them from the network architecture, effectively creating a &quot;thinner&quot; model.</li>
+<li><strong>Benefit:</strong> This directly reduces the number of FLOPs (Floating Point Operations) required for inference, lowering latency.</li>
+</ul>
+<h2 id="4-impact-analysis-cloud-vs-edge"><strong>4. Impact Analysis: Cloud vs. Edge</strong></h2>
+<p>According to ISO 13855, the Minimum Safety Distance (S) is calculated as:</p>
+<p>$$S = (K \times T) + C$$</p>
+<ul>
+<li>$K$: Human approach speed (1600 mm/s).</li>
+<li>$T$: Total system stopping time (Latency + Braking time).</li>
+</ul>
+<p><strong>If Latency (</strong>$T$<strong>) increases, the Safety Distance (</strong>$S$<strong>) must increase, forcing the robot to stop when the human is still far away, ruining productivity.</strong></p>
+<p><strong>Note: metrics are relative to each other</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Metric</th>
+<th style="text-align:left">Cloud Solution (Standard)</th>
+<th style="text-align:left">Edge AI Solution (Optimized)</th>
+<th style="text-align:left">Impact Analysis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>Total Latency (</strong>$T$<strong>)</strong></td>
+<td style="text-align:left"><strong>HIGH</strong> (Network RTT + Inference)</td>
+<td style="text-align:left"><strong>LOW</strong> (Local Capture + Inference)</td>
+<td style="text-align:left">Reducing $T$ allows the robot to work much closer to the human without violating safety zones.</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Energy</strong></td>
+<td style="text-align:left"><strong>HIGH</strong>(server side)</td>
+<td style="text-align:left"><strong>LOW</strong></td>
+<td style="text-align:left">Compute devices like Jetson runs on low voltage, easily integrated into the robot's power supply without expensive cooling.</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Model Accuracy</strong></td>
+<td style="text-align:left"><strong>HIGH</strong></td>
+<td style="text-align:left"><strong>LOW</strong></td>
+<td style="text-align:left">The precision loss from INT8 quantization is negligible for detecting a large object like a human arm at close range.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="5-risk-assessment"><strong>5. Risk Assessment:</strong></h2>
+<p>While optimization is necessary, aggressive compression introduces specific safety risks that must be mitigated.</p>
+<h3 id="risk-1-%22the-ghost-effect%22-false-negatives"><strong>Risk 1: &quot;The Ghost Effect&quot; (False Negatives)</strong></h3>
+<p><strong>Description:</strong> Aggressive <strong>Pruning</strong> removes &quot;redundant&quot; features. In rare edge cases—such as a worker wearing a grey shirt lying on a grey floor—the compressed model might lack the feature extractors necessary to distinguish the arm from the background.</p>
+<ul>
+<li><strong>Consequence:</strong> The system fails to detect the human (False Negative), and the robot does not stop.</li>
+</ul>
+<h3 id="risk-2-%22the-jitter-effect%22-temporal-instability"><strong>Risk 2: &quot;The Jitter Effect&quot; (Temporal Instability)</strong></h3>
+<p><strong>Description:</strong> <strong>Quantization</strong> (INT8) introduces rounding errors. While accurate on average, the detected coordinate of a wrist might jump by 5-10cm between frames even if the human is still.</p>
+<ul>
+<li><strong>Consequence:</strong> The robot controller receives erratic distance data, causing the robot to &quot;stutter&quot; (rapidly braking and accelerating).</li>
+</ul>
+<h2 id="6-conclusion"><strong>6. Conclusion</strong></h2>
+<p>By deploying a <strong>Quantized and Pruned YOLOv8-Pose model</strong> on an <strong>Edge device</strong>, we can achieve a safety system that is compliant with <strong>ISO/TS 15066</strong>. This architecture solves the latency issues of cloud computing, enabling an environment where humans and robots work in close proximity without physical barriers.</p>
+
+</body>
+</html>

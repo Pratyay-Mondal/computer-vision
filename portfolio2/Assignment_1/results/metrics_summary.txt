@@ -1,0 +1,6 @@
+=== METRICS SUMMARY ===
+Accuracy:     0.7933
+Sensitivity:  1.0000
+Specificity:  0.4487
+Precision:    0.7514
+F1 Score:     0.8581

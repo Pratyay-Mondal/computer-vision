@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>README.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="object-detection-for-wildlife-conservation---detecting-waterfowl-in-uav-thermal-imagery">Object Detection for Wildlife Conservation - Detecting Waterfowl in UAV Thermal Imagery</h1>
+<h2 id="1-data-preparation-and-dataset-splitting">1. Data Preparation and Dataset Splitting</h2>
+<p>This section details the initial steps taken to process the raw thermal imagery dataset and prepare it for model training.</p>
+<p>The data preparation is handled by the <code>prepare_data.py</code> script, which has two main steps: annotation parsing and dataset splitting.</p>
+<h3 id="11-annotation-formatting-datautilsdataformatterpy"><strong>1.1. Annotation Formatting (<code>data_utils/data_formatter.py</code>)</strong></h3>
+<p>The raw CSV annotations are parsed to create a unified, structured list of records.</p>
+<ul>
+<li><strong>Input:</strong> Raw CSV label file and the thermal image directories (<code>positive_images/</code>, <code>negative_images/</code>).</li>
+<li><strong>Process:</strong>
+<ul>
+<li><strong>Positive Images:</strong> Annotations are converted from <code>(x, y, width, height)</code> format to the standard of <code>(xmin, ymin, xmax, ymax)</code>. All waterfowl are assigned <code>category_id: 1</code> and <code>category_name: 'waterfowl'</code>.</li>
+<li><strong>Negative Images:</strong> Images without any waterfowl are included as records with an empty annotations list and <code>has_objects: False</code>.</li>
+</ul>
+</li>
+<li><strong>Output:</strong> A <code>formatted_annotations.pkl</code> file which contains all image records, including positive and negative examples, saved to.</li>
+</ul>
+<h3 id="12-dataset-splitting-datautilsdatasplitterpy"><strong>1.2. Dataset Splitting (<code>data_utils/data_splitter.py</code>)</strong></h3>
+<p>The complete dataset is split into non-overlapping Training, Validation, and Test subsets.</p>
+<ul>
+<li><strong>Strategy:</strong> The splitting is performed on the image IDs.</li>
+<li><strong>Split Ratios:</strong>
+<ul>
+<li>Training Set: 70% of total images.</li>
+<li>Validation Set: 15% of total images.</li>
+<li>Test Set: 15% of total images.</li>
+</ul>
+</li>
+<li><strong>Reproducibility:</strong> A fixed <code>RANDOM_SEED = 42</code> is used to ensure the split is reproducible.</li>
+<li><strong>Output:</strong> Three text files containing the image IDs for each set, saved in the <code>split_dataset/</code> directory:
+<ul>
+<li><code>split_dataset/train_ids.txt</code></li>
+<li><code>split_dataset/val_ids.txt</code></li>
+<li><code>split_dataset/test_ids.txt</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="13-execution"><strong>1.3. Execution</strong></h3>
+<p>To run the data preparation pipeline, execute:</p>
+<p><code>python prepare_data.py</code></p>
+<p>This will generate the <code>formatted_annotations.pkl</code> file and the ID lists in the <code>split_dataset/</code> folder.</p>
+<h2 id="14-data-augmentation-and-normalization"><strong>1.4. Data Augmentation and Normalization</strong></h2>
+<p>This section details the image preprocessing and data augmentation pipeline implemented in the <code>calculate_dataset_stats.py</code> and <code>data_augmentation.py</code> script.</p>
+<h3 id="141-normalization-constant-calculation"><strong>1.4.1. Normalization Constant Calculation</strong></h3>
+<p>The script <code>calculate_dataset_stats.py</code> first calculates the mean($\mu$) and standard deviation($\sigma$) on the training subset.</p>
+<ul>
+<li><strong>Calculated Normalization Constants:</strong>
+<ul>
+<li>Mean ($\mu$): <strong>0.4112</strong></li>
+<li>Standard Deviation ($\sigma$): <strong>0.1479</strong></li>
+<li><em>These constants are used in the final normalization step of the image transformation pipeline.</em></li>
+</ul>
+</li>
+</ul>
+<h3 id="15-data-augmentation-pipeline"><strong>1.5. Data Augmentation Pipeline</strong></h3>
+<p>The <code>get_transform(train=true)</code> function defines a pipeline using the albumentations library, applying various transformations to both the image and the corresponding bounding boxes.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Transformation</th>
+<th style="text-align:left">Type</th>
+<th style="text-align:left">Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>A.Affine</strong></td>
+<td style="text-align:left">Geometric</td>
+<td style="text-align:left">$p=0.7$, scale=$(0.8, 1.2)$, rotate=$(\pm 10^\circ)$</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>A.RandomResizedCrop</strong></td>
+<td style="text-align:left">Geometric</td>
+<td style="text-align:left">$p=0.5$, size=($640 X 640$)</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>A.HorizontalFlip</strong></td>
+<td style="text-align:left">Geometric</td>
+<td style="text-align:left">$p=0.5$</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>A.VerticalFlip</strong></td>
+<td style="text-align:left">Geometric</td>
+<td style="text-align:left">$p=0.2$</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>A.RandomBrightnessContrast</strong></td>
+<td style="text-align:left">Intensity</td>
+<td style="text-align:left">$p=0.5$, limit=$\pm 0.3$</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>A.GaussNoise &amp; Blur</strong></td>
+<td style="text-align:left">Noise</td>
+<td style="text-align:left">$p=0.3$ and $p=0.2$ respectively</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>A.Normalize</strong></td>
+<td style="text-align:left">Normalization</td>
+<td style="text-align:left">$\mu=0.4112, \sigma=0.1479$</td>
+</tr>
+</tbody>
+</table>
+<h3 id="151-validationtest-data-transformation"><strong>1.5.1 Validation/Test Data Transformation</strong></h3>
+<p>The <code>get_transform(train=False)</code> function applies only the deterministic transformations: <strong>Resizing</strong> to $640X640$, followed by the same <strong>Normalization</strong> and <strong>Tensor Conversion</strong> steps. No random augmentations are used in the evaluation pipeline.</p>
+<h3 id="152-visualization-of-augmentations"><strong>1.5.2. Visualization of Augmentations</strong></h3>
+<p>The <code>data_aug_vis.py</code> script, which imports the defined transformations from <code>data_pipeline.py</code>, allows for visual verification of the augmentation process. It randomly selects an image from the training set and displays the original image alongside several examples of augmented outputs, ensuring that bounding boxes are correctly transformed and maintained.</p>
+<p><img src="images/sample_augmentations.png" alt="sample augmentation"></p>
+<h2 id="2-object-detection-model-and-training-configuration"><strong>2. Object Detection Model and Training Configuration</strong></h2>
+<p>The object detection task is implemented using a two-stage detection framework.</p>
+<h3 id="21-model-selection-and-architecture"><strong>2.1. Model Selection and Architecture</strong></h3>
+<ul>
+<li><strong>Model:</strong> <strong>Faster R-CNN</strong></li>
+<li><strong>Backbone:</strong> <strong>ResNet50 with Feature Pyramid Network (FPN)</strong></li>
+<li><strong>Pre-training:</strong> The model uses weights pre-trained on the ImageNet dataset.</li>
+<li><strong>Final Layer Modification:</strong> The original classification head (<code>FastRCNNPredictor</code>) is replaced to accommodate our single target class plus the background class, resulting in <strong>2 classes</strong> in total.</li>
+<li><strong>Custom Anchors:</strong> The default anchor generator is modified to cover a wider range of sizes, specifically increasing the maximum size to <strong>2048</strong> pixels for outliers.</li>
+</ul>
+<h3 id="22-hyper-parameters-and-training-configuration"><strong>2.2 Hyper-parameters and Training Configuration</strong></h3>
+<p>The training pipeline is configured using the following core parameters defined in the configuration files:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Parameter</th>
+<th style="text-align:left">Value</th>
+<th style="text-align:left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>Device</strong></td>
+<td style="text-align:left">cuda (if available) / cpu</td>
+<td style="text-align:left">Utilizes GPU acceleration for training if a CUDA-enabled device is found.</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Batch Size</strong></td>
+<td style="text-align:left">4</td>
+<td style="text-align:left">Number of images processed per training step.</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Number of Epochs</strong></td>
+<td style="text-align:left">10</td>
+<td style="text-align:left">The total number of passes over the entire training dataset.</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Optimizer</strong></td>
+<td style="text-align:left">Stochastic Gradient Descent (SGD)</td>
+<td style="text-align:left">Used for gradient optimization.</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Base Learning Rate (LR)</strong></td>
+<td style="text-align:left">0.005</td>
+<td style="text-align:left">The initial learning rate.</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Momentum</strong></td>
+<td style="text-align:left">0.9</td>
+<td style="text-align:left">Helps accelerate SGD in the relevant direction and dampens oscillations.</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Weight Decay</strong></td>
+<td style="text-align:left">0.0005</td>
+<td style="text-align:left">$L_2$ regularization applied to weights to prevent overfitting.</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>LR Scheduler</strong></td>
+<td style="text-align:left">StepLR</td>
+<td style="text-align:left">The learning rate is dropped by a factor of 0.1 (LR_GAMMA) every 5 epochs (LR_STEP_SIZE).</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Log Frequency</strong></td>
+<td style="text-align:left">25 steps</td>
+<td style="text-align:left">Frequency for reporting training loss and performance statistics.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="23-training-pipeline">2.3 Training Pipeline</h2>
+<p>The main training loop is implemented in the primary script:<code>train.py</code>, utilizing the configured model and data utilities to manage the training flow, evaluation, and storage of results.</p>
+<h3 id="231-waterfowl-dataset-and-data-loading"><strong>2.3.1 Waterfowl Dataset and Data Loading</strong></h3>
+<p>The <strong>WaterfowlDataset</strong> class in <code>data_utils/dataset_class.py</code> handles the retrieval of image data and corresponding annotations:</p>
+<ul>
+<li><strong>Initialization:</strong> It loads the full annotation metadata (<code>formatted_annotations.pkl</code>) and filters the records based on the supplied split IDs (train, val, or test).</li>
+<li><strong>Item Retrieval:</strong>
+<ul>
+<li>Loads images.</li>
+<li>Applies the appropriate data augmentations defined in the <code>data_augmentation.py</code>.</li>
+</ul>
+</li>
+</ul>
+<h3 id="232-training-and-evaluation"><strong>2.3.2 Training and Evaluation</strong></h3>
+<p>The training process is as follows:</p>
+<ol>
+<li><strong>Model and Optimizer Setup:</strong> The Faster R-CNN model is loaded and moved to the target device (cuda or cpu). An <strong>SGD optimizer</strong> and a <strong>StepLR scheduler</strong> are initialized with the parameters defined in Section 2.2.</li>
+<li><strong>Training Loop (train_one_epoch):</strong>
+<ul>
+<li>The model processes batches, calculates the loss dictionary ( loss_classifier, loss_box_reg, etc.), performs backpropagation, and updates the weights.</li>
+<li>Detailed loss metrics are logged at a frequency of <strong>25 steps</strong>.</li>
+</ul>
+</li>
+<li><strong>Validation and Evaluation (get_validation_metrics):</strong>
+<ul>
+<li>After each epoch, the model is evaluated on the validation set.</li>
+<li>The primary evaluation metric is <strong>Mean Average Precision (mAP)</strong>, calculated using the <code>torchmetrics</code> library. This provides an objective measure of detection quality (both localization and classification accuracy).</li>
+<li>The function also calculates validation loss metrics for monitoring overfitting.</li>
+</ul>
+</li>
+<li><strong>Checkpointing (save_checkpoint):</strong>
+<ul>
+<li>Checkpoints containing the model state, optimizer state, and training history are saved after every epoch.</li>
+<li>A separate <code>_best.pth</code> checkpoint is maintained, storing the model state that achieved the <strong>highest validation mAP</strong> to date, ensuring the best performing model is always preserved.</li>
+</ul>
+</li>
+</ol>
+<h2 id="3-model-evaluation-and-analysis">3. Model Evaluation and Analysis</h2>
+<p>The trained Faster R-CNN model was evaluated on the Test set (15% of the data) using standard object detection metrics, focusing on <strong>Mean Average Precision</strong> (mAP).</p>
+<p><strong>Checkpoint Download:</strong> <a href="https://cloud.thws.de/s/xzaiM4nAc4daa5m">Best Model Checkpoint</a></p>
+<h3 id="31-evaluation-results"><strong>3.1. Evaluation Results</strong></h3>
+<p>The evaluation was performed using the best model checkpoint saved based on validation mAP.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Metric</th>
+<th style="text-align:left">Value</th>
+<th style="text-align:left">IoU Range</th>
+<th style="text-align:left">Interpretation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>mAP (IoU=0.50:0.95)</strong></td>
+<td style="text-align:left"><strong>0.451</strong></td>
+<td style="text-align:left">Averaged over $[0.50, 0.95]$</td>
+<td style="text-align:left">The strictest measure, reflecting overall accuracy and precise localization.</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>mAP@50 (IoU=0.50)</strong></td>
+<td style="text-align:left"><strong>0.869</strong></td>
+<td style="text-align:left">At IoU $\ge 0.50$</td>
+<td style="text-align:left">Measures good detection of object presence and approximate location.</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>mAP@75 (IoU=0.75)</strong></td>
+<td style="text-align:left"><strong>0.394</strong></td>
+<td style="text-align:left">At IoU $\ge 0.75$</td>
+<td style="text-align:left">Measures highly accurate object localization.</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Max Recall (MAR@100)</strong></td>
+<td style="text-align:left"><strong>0.520</strong></td>
+<td style="text-align:left">Maximum recall with 100 detections/image</td>
+<td style="text-align:left">The highest achievable recall (True Positive Rate).</td>
+</tr>
+</tbody>
+</table>
+<h3 id="32-intuitions-on-model-performance"><strong>3.2. Intuitions on Model Performance</strong></h3>
+<h4 id="how-well-does-model-detect-waterfowl"><strong>How well does model detect waterfowl?</strong></h4>
+<p>The model demonstrates strong capability in identifying the <strong>presence and approximate location</strong> of waterfowl, evidenced by the high <strong>mAP@50 score of 0.869</strong>. This score suggests that when the model reports a bird, the bounding box overlaps the ground truth by at least 50% most of the time.</p>
+<p>However, the significant performance drop from $\text{mAP}@50$ to the overall <strong>mAP (0.451)</strong> and <strong>mAP@75 (0.394)</strong> indicates a weakness in <strong>precise localization</strong>. The model struggles to place the bounding box accurately at strict IoU thresholds.The <strong>Max Recall (0.520)</strong> confirms that even with relaxed scoring, the model only successfully finds about half of all the waterfowl present in the test set, indicating that many small or faint thermal targets are being missed (False Negatives).</p>
+<h3 id="33-strengths-and-weaknesses-of-thermal-imagery"><strong>3.3. Strengths and Weaknesses of Thermal Imagery</strong></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Aspect</th>
+<th style="text-align:left">Discussion</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>Strengths of Thermal Imagery</strong></td>
+<td style="text-align:left"><strong>Detection against Camouflage:</strong> Thermal signatures are highly effective for wildlife detection as they isolate the animal's heat signature from the background (water, vegetation), overcoming challenges like camouflage in RGB images.<strong>Night/Low Light Operation:</strong> Thermal cameras operate independently of visible light, enabling continuous monitoring across all times of day and night.</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Weaknesses of Thermal Imagery</strong></td>
+<td style="text-align:left"><strong>Lack of Textural Detail:</strong> Thermal images lack the fine texture and visual context of RGB, making species differentiation or individual identification difficult. <strong>Environmental Interference:</strong> Reflections on water, objects heated by the sun, or localized hot spots can generate false positives (False Detections) or interfere with the true thermal signature.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="34-visualization-and-error-analysis">3.4. Visualization and Error Analysis</h2>
+<p>The error analysis pipeline(<code>vis_and_err_analysis/error_analysis.py</code>) identifies and samples images representing three key detection outcomes: True Positives (TP), False Negatives (FN), and False Positives (FP).</p>
+<h3 id="341-methodology">3.4.1 Methodology</h3>
+<ul>
+<li><strong>Categorization:</strong> Images are categorized based on: $\text{IoU} \ge 0.50$ and $\text{Confidence} \ge 0.75$.</li>
+<li><strong>True Positive (TP) Case:</strong> Images where the number of correctly detected objects (TPs) is $80%$ or more of the total ground truth count.</li>
+<li><strong>False Negative (FN) Case:</strong> Images where the number of missed ground truth objects (FNs) is $80%$  or more of the total ground truth count.</li>
+<li><strong>False Positive (FP) Case:</strong> Images where the number of incorrect predictions (FPs) is $80%$ or more of the total predictions made.</li>
+<li><strong>Visualization:</strong>
+<ul>
+<li><strong>Ground Truth (GT):</strong> Green Bounding Boxes</li>
+<li><strong>Prediction (PRED):</strong> Red Bounding Boxes (confidence score $\ge 0.75$)</li>
+</ul>
+</li>
+</ul>
+<h3 id="342-sample-visualizations">3.4.2 Sample Visualizations</h3>
+<h4 id="atrue-positives---tp"><strong>A.True Positives - TP</strong></h4>
+<p><img src="output_run/visualisation_results/TP_20180322_101759_389_R.tif.png" alt="TP viz">
+<img src="output_run/visualisation_results/TP_20180322_101837_761_R.tif.png" alt="TP viz">
+<img src="output_run/visualisation_results/TP_20180322_102110_279_R.tif.png" alt="TP viz"></p>
+<p>Thiese image represents the model's general performance, where most waterfowl are successfully identified. The model predictions (Red boxes) align well with the ground truth (Green boxes), demonstrating good overall object localization. The high $\text{mAP}@50$ (0.869) seen in the evaluation results is supported by these cases.</p>
+<h4 id="b-false-negatives---fn"><strong>B. (False Negatives - FN)</strong></h4>
+<p><img src="output_run/visualisation_results/FN_20180322_102621_360_R.tif.png" alt="FN viz"></p>
+<p>In this image, the model missed most of the ground truth waterfowl (Green boxes). Only two objects: in the bottom left corner and top right corner were detected. The primary cause of FNs is likely the low contrast of distant or small thermal targets against the background.</p>
+<h4 id="c-false-positives---fp"><strong>C. False Positives - FP</strong></h4>
+<p><img src="output_run/visualisation_results/FP_20180322_102344_769_R.tif.png" alt="FP viz">
+<img src="output_run/visualisation_results/FP_20180322_102504_583_R.tif.png" alt="FP viz"></p>
+<p>These image shows multiple instances where the model predicted a waterfowls in an area that contains no ground truth. The area is dominated by high-thermal-signature textured regions.</p>
+<h2 id="4-analysis-of-training-dynamics"><strong>4. Analysis of Training Dynamics</strong></h2>
+<p>The script <code>vis_and_err_analysis/plots.py</code> analyzes the training process using plots generated from the per-epoch training history, which provides insight into convergence and the effect of the learning rate schedule.</p>
+<h3 id="41-training-loss-and-validation-map-curves"><strong>4.1. Training Loss and Validation mAP Curves</strong></h3>
+<p>The plot below shows the training loss (blue line, left axis) and the validation mAP (red dashed line, right axis) across 20 training epochs.</p>
+<p><img src="output_run/plots/performance_curves.png" alt="Training Loss"></p>
+<h4 id="key-findings"><strong>Key Findings:</strong></h4>
+<ul>
+<li><strong>Rapid Convergence:</strong> The <strong>Training Loss</strong> drops steeply in the first few epochs (1-5) before stabilizing around epoch 10, indicating the model learns the primary features quickly.</li>
+<li><strong>Validation Performance:</strong> The <strong>Validation mAP</strong> increases rapidly up to epoch 7, reaching its maximum value and then becoming relatively flat for the remaining epochs.</li>
+<li><strong>Optimal Stopping:</strong> The training process effectively reaches convergence around epoch <strong>10</strong> or earlier, where further training yields minimal improvement in validation performance. The model does not appear to suffer from significant overfitting, as the training loss continues a slow decline while validation <strong>mAP</strong> remains stable.</li>
+</ul>
+<h3 id="42-learning-rate-schedule"><strong>4.2. Learning Rate Schedule</strong></h3>
+<p>The learning rate plot confirms the application of the StepLR scheduler, which is designed to help the model escape local minima and stabilize training after initial feature learning.</p>
+<p><img src="output_run/plots/learning_rate.png" alt="Learning Rate"></p>
+<h4 id="key-findings"><strong>Key Findings:</strong></h4>
+<ul>
+<li><strong>Step Decay:</strong> The learning rate starts at the defined <strong>Base LR (0.005)</strong> and is reduced by a factor of 0.1 at epochs <strong>5, 10, and 15</strong>.</li>
+<li><strong>Impact on Training:</strong> The stability in the Validation mAP curve after epoch 7 suggests that the initial learning rate was sufficient for major convergence, and the subsequent steps help fine-tune the weights without disrupting the model's performance.</li>
+</ul>
+<h3 id="43-temporal-co-relation"><strong>4.3. Temporal Co-relation</strong></h3>
+<p>To investigate the discrepancy between high precision and moderate recall, a supplementary autocorrelation analysis was performed to quantify the temporal redundancy inherent in the sequential dataset.</p>
+<p><img src="images/co-relation.png" alt="Co-relation"></p>
+
+</body>
+</html>

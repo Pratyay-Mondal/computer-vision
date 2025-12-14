@@ -1,0 +1,334 @@
+import os
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+from torch.utils.data import DataLoader
+from torchvision import datasets, transforms, models
+from torchvision.transforms import InterpolationMode
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+from lime import lime_image
+from skimage.segmentation import mark_boundaries
+
+# =============================================================================
+# Configuration
+# =============================================================================
+
+MODEL_PATH = "best_densenet121_chestxray.pth"
+TEST_ROOT = "data/chest_xray/chest_xray/test"
+
+OUTPUT_DIR = "xai_outputs_v1"
+os.makedirs(OUTPUT_DIR, exist_ok=True)
+
+MEAN = 0.482
+STD = 0.223
+TARGET_SIZE = 224   # 224 x 224
+N_PER_CASE = 2      # up to 2 examples per TP/TN/FP/FN
+
+# =============================================================================
+# Transforms (match validation/test)
+# =============================================================================
+
+test_transform = transforms.Compose([
+    transforms.Grayscale(num_output_channels=1),
+    transforms.Resize((TARGET_SIZE, TARGET_SIZE), interpolation=InterpolationMode.BICUBIC),
+    transforms.ToTensor(),
+    transforms.Lambda(lambda x: x.repeat(3, 1, 1)),
+    transforms.Normalize(mean=[MEAN] * 3, std=[STD] * 3),
+])
+
+# =============================================================================
+# Dataset & DataLoader (TEST ONLY)
+# =============================================================================
+
+test_dataset = datasets.ImageFolder(TEST_ROOT, transform=test_transform)
+class_names = test_dataset.classes  # ['NORMAL', 'PNEUMONIA']
+print("Test classes:", class_names)
+
+# batch_size=1 to simplify handling per image
+test_loader = DataLoader(test_dataset, batch_size=1, shuffle=False)
+
+# =============================================================================
+# Model Setup (MATCH TRAINING ARCHITECTURE)
+# =============================================================================
+
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+def fix_densenet_inplace_relu(model):
+    for module in model.modules():
+        if isinstance(module, nn.ReLU):
+            module.inplace = False
+
+def patch_densenet_forward(model):
+    """
+    Patch DenseNet forward to avoid in-place final ReLU (for Grad-CAM).
+    """
+    def new_forward(self, x):
+        features = self.features(x)
+        out = F.relu(features, inplace=False)
+        out = F.adaptive_avg_pool2d(out, (1, 1))
+        out = torch.flatten(out, 1)
+        out = self.classifier(out)
+        return out
+
+    import types
+    model.forward = types.MethodType(new_forward, model)
+
+model = models.densenet121(weights=models.DenseNet121_Weights.IMAGENET1K_V1)
+fix_densenet_inplace_relu(model)
+patch_densenet_forward(model)
+
+num_features = model.classifier.in_features
+model.classifier = nn.Sequential(
+    nn.BatchNorm1d(num_features),
+    nn.Dropout(0.4),
+    nn.Linear(num_features, 2),
+)
+
+model.load_state_dict(torch.load(MODEL_PATH, map_location=device))
+model.to(device)
+model.eval()
+
+print("\n✔ DenseNet model loaded for XAI on TEST set.\n")
+
+# =============================================================================
+# Utility: denormalize
+# =============================================================================
+
+def denormalize(img):
+    """
+    img: tensor (3,H,W) normalized
+    return: tensor (3,H,W) in [0,1]
+    """
+    mean = torch.tensor([MEAN] * 3).view(3, 1, 1)
+    std = torch.tensor([STD] * 3).view(3, 1, 1)
+    return (img * std + mean).clamp(0, 1)
+
+# =============================================================================
+# Grad-CAM
+# =============================================================================
+
+class GradCAM:
+    def __init__(self, model, layer):
+        self.model = model
+        self.layer = layer
+        self.activations = None
+        self.gradients = None
+
+        self.fwd = layer.register_forward_hook(self.fwd_hook)
+        self.bwd = layer.register_full_backward_hook(self.bwd_hook)
+
+    def fwd_hook(self, m, inp, out):
+        self.activations = out.detach()
+
+    def bwd_hook(self, m, gin, gout):
+        self.gradients = gout[0].detach()
+
+    def generate(self, x):
+        """
+        x: (1,3,H,W) normalized tensor on device
+        returns: (H,W) heatmap in [0,1] as numpy array
+        """
+        self.model.zero_grad()
+        out = self.model(x)
+        c = out.argmax(1).item()
+        out[0, c].backward()
+
+        A = self.activations[0]   # (C,H',W')
+        G = self.gradients[0]     # (C,H',W')
+
+        w = G.mean(dim=(1, 2))   # (C,)
+        cam = torch.zeros_like(A[0])
+
+        for i, wi in enumerate(w):
+            cam += wi * A[i]
+
+        cam = F.relu(cam)
+        cam = (cam - cam.min()) / (cam.max() + 1e-8)
+
+        cam = F.interpolate(
+            cam.unsqueeze(0).unsqueeze(0),
+            size=x.shape[2:], mode="bilinear", align_corners=False
+        )
+        return cam.squeeze().detach().cpu().numpy()
+
+cam_layer = model.features[-1]
+gradcam = GradCAM(model, cam_layer)
+
+# =============================================================================
+# LIME classifier function
+# =============================================================================
+
+def lime_classifier_fn(images_np):
+    """
+    images_np: (N,H,W,3) uint8 or float in [0,255] or [0,1]
+    returns: (N,num_classes) probabilities
+    """
+    model.eval()
+
+    imgs = images_np.astype(np.float32)
+    if imgs.max() > 1.0:
+        imgs = imgs / 255.0
+
+    imgs_t = torch.from_numpy(imgs).permute(0, 3, 1, 2)  # (N,3,H,W)
+    gray = imgs_t.mean(dim=1, keepdim=True)              # (N,1,H,W)
+    imgs_3 = gray.repeat(1, 3, 1, 1)
+
+    mean = torch.tensor([MEAN] * 3).view(1, 3, 1, 1)
+    std = torch.tensor([STD] * 3).view(1, 3, 1, 1)
+    imgs_3 = (imgs_3 - mean) / std
+
+    imgs_3 = imgs_3.to(device)
+
+    with torch.no_grad():
+        logits = model(imgs_3)
+        probs = torch.softmax(logits, dim=1).cpu().numpy()
+
+    return probs
+
+explainer = lime_image.LimeImageExplainer()
+
+# =============================================================================
+# Select examples: TP, TN, FP, FN from TEST SET
+# =============================================================================
+
+selected = {
+    "TP": [],  # true pneumonia, predicted pneumonia
+    "TN": [],  # true normal, predicted normal
+    "FP": [],  # true normal, predicted pneumonia
+    "FN": []   # true pneumonia, predicted normal
+}
+
+print("Selecting up to", N_PER_CASE, "examples for each of TP/TN/FP/FN from TEST set...")
+
+with torch.no_grad():
+    for idx, (x, y) in enumerate(test_loader):
+        x = x.to(device)        # (1,3,H,W)
+        y_true = y.item()       # 0 or 1
+
+        logits = model(x)
+        y_pred = logits.argmax(1).item()
+
+        if y_true == 1 and y_pred == 1:
+            case = "TP"
+        elif y_true == 0 and y_pred == 0:
+            case = "TN"
+        elif y_true == 0 and y_pred == 1:
+            case = "FP"
+        elif y_true == 1 and y_pred == 0:
+            case = "FN"
+        else:
+            continue
+
+        if len(selected[case]) < N_PER_CASE:
+            # Store the original normalized tensor (cpu), label, pred, and dataset index
+            selected[case].append({
+                "dataset_idx": idx,
+                "image": x[0].detach().cpu(),  # (3,H,W)
+                "true": y_true,
+                "pred": y_pred
+            })
+
+        # Stop early if we have enough of each case
+        if all(len(selected[c]) >= N_PER_CASE for c in selected):
+            break
+
+for case, items in selected.items():
+    print(case, ":", len(items), "examples selected.")
+
+# =============================================================================
+# Generate side-by-side figures for each selected example
+# =============================================================================
+
+def create_triplet_figure(img_tensor, heatmap, lime_img, true_label, pred_label, case, idx_in_case):
+    """
+    img_tensor: (3,H,W) normalized tensor
+    heatmap: (H,W) numpy array in [0,1]
+    lime_img: (H,W,3) float in [0,1]
+    """
+
+    base = denormalize(img_tensor).permute(1, 2, 0).numpy()  # (H,W,3) in [0,1]
+    base_uint8 = (base * 255).astype(np.uint8)
+
+    fig, axes = plt.subplots(1, 3, figsize=(9, 3))
+    fig.suptitle(
+        f"{case} — True: {class_names[true_label]}, Pred: {class_names[pred_label]}",
+        fontsize=10
+    )
+
+    # Original
+    axes[0].imshow(base_uint8, cmap="gray")
+    axes[0].set_title("Original")
+    axes[0].axis("off")
+
+    # Grad-CAM overlay
+    axes[1].imshow(base_uint8, alpha=0.7)
+    axes[1].imshow(heatmap, cmap="jet", alpha=0.4)
+    axes[1].set_title("Grad-CAM")
+    axes[1].axis("off")
+
+    # LIME
+    axes[2].imshow(lime_img)
+    axes[2].set_title("LIME")
+    axes[2].axis("off")
+
+    save_path = os.path.join(
+        OUTPUT_DIR,
+        f"{case}_example_{idx_in_case:02d}_v1.png"
+    )
+    plt.tight_layout()
+    plt.savefig(save_path, dpi=300, bbox_inches="tight")
+    plt.close(fig)
+
+    print("Saved:", save_path)
+
+
+print("\n=== Generating Grad-CAM + LIME triplets on TEST examples ===")
+
+for case, items in selected.items():
+    for i, item in enumerate(items):
+        img_tensor = item["image"]    # (3,H,W) normalized
+        true_label = item["true"]
+        pred_label = item["pred"]
+
+        # ---- Grad-CAM ----
+        x_single = img_tensor.unsqueeze(0).to(device)  # (1,3,H,W)
+        heat = gradcam.generate(x_single)
+
+        # ---- LIME ----
+        # Convert denormalized base to uint8 for LIME input
+        base = denormalize(img_tensor).permute(1, 2, 0).numpy()
+        img_uint8 = (base * 255).astype(np.uint8)
+
+        explanation = explainer.explain_instance(
+            img_uint8,
+            classifier_fn=lime_classifier_fn,
+            top_labels=1,
+            hide_color=0,
+            num_samples=1000
+        )
+
+        top_label = explanation.top_labels[0]
+        temp, mask = explanation.get_image_and_mask(
+            label=top_label,
+            positive_only=True,
+            num_features=7,
+            hide_rest=False
+        )
+        lime_vis = mark_boundaries(temp / 255.0, mask)  # (H,W,3) in [0,1]
+
+        # ---- Create and save triplet figure ----
+        create_triplet_figure(
+            img_tensor=img_tensor,
+            heatmap=heat,
+            lime_img=lime_vis,
+            true_label=true_label,
+            pred_label=pred_label,
+            case=case,
+            idx_in_case=i
+        )
+
+print("\nAll done! Triplet XAI figures saved under:", OUTPUT_DIR)
+                                                                   

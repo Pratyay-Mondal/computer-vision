@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>README.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="edge-ai-for-industry-40---optimizing-mobilenetv2-via-model-pruning">Edge AI for Industry 4.0 - Optimizing MobileNetV2 via Model Pruning</h1>
+<h2 id="1-data-preparation-and-experimental-setup">1. Data Preparation and Experimental Setup</h2>
+<p>This section details the dataset selection and preprocessing steps used to simulate an industrial defect detection scenario.</p>
+<p>The data handling is managed by the <code>torchvision</code> pipeline, utilizing CIFAR-10 as a proxy for industrial object classification.</p>
+<h3 id="11-11-dataset-selection-cifar-10"><strong>1.1. 1.1. Dataset Selection (CIFAR-10)</strong></h3>
+<p>To simulate a resource-constrained industrial environment (e.g., classifying parts on a conveyor belt), we utilize the CIFAR-10 dataset.</p>
+<ul>
+<li><strong>Context:</strong> Industry 4.0 requires rapid classification of objects (defects vs. normal) on edge devices..</li>
+<li><strong>Dataset Structure:</strong>
+<ul>
+<li><strong>Classes:</strong> 10 distinct classes (e.g., plane, car, bird, etc.) representing different industrial categories.</li>
+<li><strong>Resolution:</strong> 32×32 pixels, simulating low-bandwidth sensors.</li>
+<li><strong>Size:</strong> 50,000 Training images, 10,000 Test images.</li>
+</ul>
+</li>
+</ul>
+<h3 id="12-preprocessing-and-normalization"><strong>1.2. Preprocessing and Normalization</strong></h3>
+<p>The <code>transform_train</code> and <code>transform_test</code> pipelines prepare the raw images for the MobileNetV2 architecture.</p>
+<ul>
+<li><strong>Normalization:</strong>
+<ul>
+<li><strong>Mean (μ):</strong> (0.4914, 0.4822, 0.4465)</li>
+<li><strong>Standard Deviation (σ):</strong> (0.2023, 0.1994, 0.2010)</li>
+</ul>
+</li>
+</ul>
+<h3 id="13-data-loaders"><strong>1.3. Data Loaders</strong></h3>
+<p>To mimic edge inference conditions, the test loader is configured to simulate batched processing.
+* <strong>batch Size:</strong> 64
+* <strong>Workers:</strong> 2</p>
+<h2 id="2-model-architecture-and-pruning-configuration"><strong>2. Model Architecture and Pruning Configuration</strong></h2>
+<p>The optimization task utilizes a lightweight convolutional neural network, modified for pruning experiments.</p>
+<h3 id="21-model-selection"><strong>2.1. Model Selection</strong></h3>
+<ul>
+<li><strong>Model:</strong> <strong>MobileNetV2</strong></li>
+<li><strong>Pre-training:</strong> Initialized with <code>MobileNet_V2_Weights.DEFAULT</code> (ImageNet weights)</li>
+<li><strong>Final Layer Modification:</strong> The final classifier layer (<code>model.classifier[1]</code>) is replaced to output 10 classes instead of 1000.</li>
+</ul>
+<h2 id="3-pruning-strategies">3. Pruning Strategies</h2>
+<p>The core of this project is the run_unified_experiment function, which implements a flexible pruning engine capable of executing distinct strategies defined in experiments_config.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Strategy</th>
+<th style="text-align:left">Heuristic</th>
+<th style="text-align:left">Logic</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>Unstructured L1</strong></td>
+<td style="text-align:left">Magnitude</td>
+<td style="text-align:left">Removes individual weights with the smallest absokute value.</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Structured L2</strong></td>
+<td style="text-align:left">Norm</td>
+<td style="text-align:left">Removes entire channels/filters based on their L2 norm. Reduces matrix dimensions for real speedup but causes higher accuracy loss.</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Random</strong></td>
+<td style="text-align:left">Stochastic</td>
+<td style="text-align:left">Randomly removes weights. Used as a baseline &quot;sanity check&quot; to validate the effectiveness of L1 pruning.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="31-one-shot-pruning"><strong>3.1. One-Shot Pruning</strong></h3>
+<p>The evaluation was performed using the best model checkpoint saved based on validation mAP.</p>
+<ul>
+<li><strong>Process:</strong> The target sparsity (e.g., 50% or 90%) is applied in a single step.</li>
+<li><strong>Workflow:</strong>
+<ul>
+<li><strong>Apply Mask :</strong> Remove <code>X%</code> of weights.</li>
+<li><strong>Fine-tune  :</strong> Train for 1 epoch to recover accuracy.</li>
+</ul>
+</li>
+<li><strong>Use Case:</strong> Tests the robustness of the model against massive, sudden information loss.</li>
+</ul>
+<h3 id="32-iterative-pruning"><strong>3.2. Iterative Pruning</strong>.</h3>
+<ul>
+<li><strong>Process:</strong> The target sparsity is reached gradually over N steps (e.g., 10 steps).</li>
+<li><strong>Schedule Formula:</strong>  $$S_{step} = 1 - (1 - S_{target})^{\frac{1}{N}}$$</li>
+<li><strong>Workflow:</strong>
+<ul>
+<li>Prune a small fraction (e.g., 15%).</li>
+<li><strong>Fine-tune  :</strong> Train for 1 epoch to recover accuracy.</li>
+<li>Repeat until target sparsity is reached.</li>
+</ul>
+</li>
+<li><strong>Use Case:</strong> Allows the model to adapt its remaining weights to compensate for the loss, essential for high compression rates (80%+).</li>
+</ul>
+<h2 id="4-evaluation-and-results"><strong>4. Evaluation and Results</strong></h2>
+<p>The models were evaluated based on three: Sparsity, Top-1 Accuracy, and Inference Time.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Experiment</th>
+<th style="text-align:left">Sparsity</th>
+<th style="text-align:left">Accuracy</th>
+<th style="text-align:left">Model Size (Gzip)</th>
+<th style="text-align:left">Inference Time</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>Baseline</strong></td>
+<td style="text-align:left">0%</td>
+<td style="text-align:left"><strong>94.4%</strong></td>
+<td style="text-align:left"><strong>8.53 MB</strong></td>
+<td style="text-align:left"><strong>6.90 ms</strong></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>OneShot L1</strong></td>
+<td style="text-align:left">50%</td>
+<td style="text-align:left"><strong>93.2%</strong></td>
+<td style="text-align:left">8.53 MB</td>
+<td style="text-align:left">6.78 ms</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Iterative L1</strong></td>
+<td style="text-align:left"><strong>90%</strong></td>
+<td style="text-align:left"><strong>82.8%</strong></td>
+<td style="text-align:left"><strong>8.31 MB</strong></td>
+<td style="text-align:left"><strong>7.03 ms</strong></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>OneShot L1</strong></td>
+<td style="text-align:left">90%</td>
+<td style="text-align:left">51.2%</td>
+<td style="text-align:left">8.31 MB</td>
+<td style="text-align:left">6.85 ms</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>OneShot Random</strong></td>
+<td style="text-align:left">90%</td>
+<td style="text-align:left">11.6%</td>
+<td style="text-align:left">8.34 MB</td>
+<td style="text-align:left">6.84 ms</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Iterative Structured L2</strong></td>
+<td style="text-align:left">90%</td>
+<td style="text-align:left">10.0%</td>
+<td style="text-align:left">8.01 MB</td>
+<td style="text-align:left">6.92 ms</td>
+</tr>
+</tbody>
+</table>
+<p><img src="outputs/plot_pareto_frontier_all.png" alt="evals">
+<img src="outputs/plot_leaderboard.png" alt="evals2"></p>
+<h3 id="41-analysis-why-do-the-results-look-like-this"><strong>4.1. Analysis (Why do the results look like this?)</strong></h3>
+<p>This section details the theoretical reasons behind our experimental findings.</p>
+<h4 id="411-why-did-iterative-pruning-beat-one-shot-by-30"><strong>4.1.1. Why did Iterative Pruning beat One-Shot by 30%?</strong></h4>
+<p>The <strong>&quot;Lottery Ticket Hypothesis&quot;</strong> suggests that dense networks contain sparse subnetworks that can be trained to high accuracy.</p>
+<ul>
+<li><strong>One-Shot (90%):</strong> We abruptly cut the connections. The remaining 10% of weights were forced to take over instantly, which was too difficult a jump in the loss landscape.</li>
+<li><strong>Iterative:</strong> By pruning 10-20% at a time and retraining, we allowed the surviving weights to adjust their values gradually. This &quot;healing&quot; process guided the optimization trajectory into a basin where a 90% sparse solution exists.</li>
+</ul>
+<h4 id="412-why-did-structured-pruning-fail-completely"><strong>4.1.2 Why did Structured Pruning fail completely?</strong></h4>
+<p>Structured pruning removes entire filters.</p>
+<ul>
+<li><strong>The MobileNet Factor:</strong> MobileNetV2 is designed to be efficient. It uses <strong>Depthwise Separable Convolutions</strong>, which already significantly reduce the parameter count (redundancy).</li>
+<li><strong>The Collapse:</strong> Unlike VGG or ResNet, which have massive redundancy, MobileNetV2 has very little &quot;fat&quot; to trim. When we removed 90% of the <em>channels</em> structurally, we destroyed the network's topology, breaking the flow of information completely.</li>
+</ul>
+<p><img src="outputs/metrics_evol.png" alt="evals2"></p>
+<h4 id="413-why-didnt-inference-time-decrease"><strong>4.1.3. Why didn't Inference Time decrease?</strong></h4>
+<p>Despite removing 90% of the weights, our inference time remained ~7ms.</p>
+<ul>
+<li><strong>The Reason:</strong> Despite removing 90% of the weights, our inference time remained constant (~7ms). This is a known characteristic of the <strong>PyTorch prune</strong> module, which implements Masking rather than Physical Removal.</li>
+</ul>
+<h4 id="414-the-file-size-paradox"><strong>4.1.4 The File Size Paradox</strong></h4>
+<p><strong>Observation</strong>: Despite removing 90% of parameters, the disk size only dropped by ~0.2 MB.</p>
+<p><strong>Explanation</strong>: We utilized PyTorch Masking, which zeroes out weights but preserves the original tensor shapes (Dense Format).</p>
+<ol>
+<li><strong>Dense Tensor</strong>: Stores every value, including zeros.</li>
+<li><strong>Sparse Tensor</strong>: Stores only indices (x, y) and values of non-zero weights.</li>
+<li><strong>Insight</strong>: To realize storage benefits in a production environment, we would need to export this model using a Sparse Format (CSR/CSC) or specialized hardware encodings.</li>
+</ol>
+<h4 id="415-kernel-visualization-analysis">**4.1.5 Kernel Visualization Analysis</h4>
+<p>To understand what the model actually removed, we visualized the weights of the first convolutional layer (32 filters). This visual evidence explains the drastic difference in accuracy between strategies.</p>
+<p><strong>Baseline</strong>: The original filters contain rich, dense patterns used for edge and color detection.
+<img src="outputs/baseline_32_filters.png" alt="baseline_32_filters"></p>
+<p><strong>Iterative L1 (90% - 82.8% Acc)</strong>: The &quot;Swiss Cheese&quot; effect. The L1 algorithm surgically removed individual unimportant pixels (weights) while preserving the high-magnitude structures. This allows the filter to still function, albeit with less fidelity.
+<img src="outputs/iterative_l1_90_32_filters.png" alt="iterative_l1_90_32_filters"></p>
+<p><strong>Structured L2 Pruning (90% - 10.0% Acc)</strong>: The &quot;Blackout&quot;. This method killed entire filters (the black squares). Because MobileNetV2 is already compact, killing 90% of the filters destroyed the model's ability to extract features entirely, resulting in random guessing.
+<img src="outputs/iterative_structured_90_32_filters.png" alt="iterative_structured_90_32_filters"></p>
+<p><strong>Random Pruning (90% - 11.6% Acc)</strong>: The &quot;Static&quot;. Unlike L1 pruning which preserved structure, random pruning destroyed the coherent patterns necessary for convolution, resulting in noise.
+<img src="outputs/oneshot_random_90_32_filters.png" alt="random"></p>
+<h2 id="5-conclusion"><strong>5. Conclusion</strong></h2>
+<p>This project successfully demonstrated that Iterative Unstructured Pruning is the optimal strategy for compressing MobileNetV2 on CIFAR-10, achieving 90% sparsity with only an 11% drop in accuracy.</p>
+<p><strong>Key Takeaways</strong>:
+<strong>Gradual is Better</strong>: The &quot;healing&quot; phase in iterative pruning is critical. One-shot pruning at high sparsity levels causes irreversible brain damage to the model.</p>
+<p><strong>Architecture Matters</strong>: MobileNetV2 is highly sensitive to Structured Pruning. Unlike VGG or ResNet, it lacks the channel redundancy required to survive the removal of entire filters.</p>
+<p><strong>The Hardware Gap</strong>: While we achieved theoretical compression (sparsity), realizing actual gains in speed (latency) and storage requires specialized deployment steps (Sparse Formats and Hardware) beyond standard PyTorch masking.</p>
+
+</body>
+</html>
