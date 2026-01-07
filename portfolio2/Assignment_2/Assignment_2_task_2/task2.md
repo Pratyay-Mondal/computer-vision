@@ -66,9 +66,9 @@ $$S = (K \times T) + C$$
 
 **Note: metrics are relative to each other**
 | Metric | Cloud Solution (Standard) | Edge AI Solution (Optimized) | Impact Analysis |
-| :---- | :---- | :---- | :---- |
-| **Total Latency (**$T$**)** | **HIGH** (Network RTT \+ Inference) | **LOW** (Local Capture \+ Inference) | Reducing $T$ allows the robot to work much closer to the human without violating safety zones. |
-| **Energy** | **HIGH**(server side) | **LOW** | Compute devices like Jetson runs on low voltage, easily integrated into the robot's power supply without expensive cooling. |
+| :--- | :--- | :--- | :--- |
+| **Total Latency** | **HIGH** (Network RTT + Inference) | **LOW** (Local Capture + Inference) | Reducing latency allows the robot to work much closer to the human without violating safety zones. |
+| **Energy** | **HIGH** (Server side) | **LOW** | Compute devices like Jetson run on low voltage and are easily integrated into the robot's power supply without expensive cooling. |
 | **Model Accuracy** | **HIGH** | **LOW** | The precision loss from INT8 quantization is negligible for detecting a large object like a human arm at close range. |
 
 ## **5\. Risk Assessment:**
