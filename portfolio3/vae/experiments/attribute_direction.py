@@ -161,9 +161,10 @@ def main():
             latent_codes.append(mu.cpu())
             
             # Get attribute labels
-            batch_labels = torch.tensor([
-                attr.get(args.attribute, 0) for attr in attrs
-            ])
+            # batch_labels = torch.tensor([
+            #     attr.get(args.attribute, 0) for attr in attrs
+            # ])
+            batch_labels = attrs[args.attribute]
             labels.append(batch_labels)
             
             collected += images.size(0)
