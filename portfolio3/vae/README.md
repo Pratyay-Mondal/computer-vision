@@ -229,6 +229,18 @@ python -m experiments.traversal --ckpt outputs/vae_best.pt --num-dims 10 --no-va
 python -m experiments.traversal --ckpt outputs/vae_best.pt --combined-grid
 ```
 
+## Results of Reconstruction Quality
+<img width="2083" height="1333" alt="model_comparison" src="https://github.com/user-attachments/assets/f88870a8-d749-44fd-a212-5b20ff56ef0c" />
+
+
+## Results of Latent Space Manipulation
+#### Attribute “Blond_Hair”
+<img width="2265" height="285" alt="blond_hair_example2" src="https://github.com/user-attachments/assets/64a4e6a7-f287-44d2-bbf8-933f42ba3594" />
+
+#### Attribute “Eyeglasses”
+<img width="2265" height="285" alt="eyeglasses_example2" src="https://github.com/user-attachments/assets/4ef8e459-9979-4197-8ea4-0f64364ba6e9" />
+
+
 ## References
 
 - [Auto-Encoding Variational Bayes](https://arxiv.org/abs/1312.6114) - Kingma & Welling, 2013
